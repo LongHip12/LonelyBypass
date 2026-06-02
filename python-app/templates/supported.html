@@ -18,12 +18,24 @@
         <input type="text" id="search-input" placeholder="Search services…" oninput="filterServices()" />
       </div>
       <div class="filter-pills" id="filter-pills">
-        <button class="pill active" data-cat="All" onclick="setCategory(this,'All')">All <span class="pill-count" id="count-All">0</span></button>
-        <button class="pill" data-cat="adLinks" onclick="setCategory(this,'adLinks')">🔗 Ad-link <span class="pill-count" id="count-adLinks">0</span></button>
-        <button class="pill" data-cat="socials" onclick="setCategory(this,'socials')">👥 Social-lock <span class="pill-count" id="count-socials">0</span></button>
-        <button class="pill" data-cat="pastes" onclick="setCategory(this,'pastes')">📋 Paste <span class="pill-count" id="count-pastes">0</span></button>
-        <button class="pill" data-cat="shorteners" onclick="setCategory(this,'shorteners')">✂️ Shortener <span class="pill-count" id="count-shorteners">0</span></button>
-        <button class="pill" data-cat="roblox" onclick="setCategory(this,'roblox')">🎮 Roblox Key <span class="pill-count" id="count-roblox">0</span></button>
+        <button class="pill active" data-cat="All" onclick="setCategory(this,'All')">
+          All <span class="pill-count" id="count-All">0</span>
+        </button>
+        <button class="pill" data-cat="adLinks" onclick="setCategory(this,'adLinks')">
+          <span class="cat-dot cat-dot-adLinks"></span>Ad-link <span class="pill-count" id="count-adLinks">0</span>
+        </button>
+        <button class="pill" data-cat="socials" onclick="setCategory(this,'socials')">
+          <span class="cat-dot cat-dot-socials"></span>Social-lock <span class="pill-count" id="count-socials">0</span>
+        </button>
+        <button class="pill" data-cat="pastes" onclick="setCategory(this,'pastes')">
+          <span class="cat-dot cat-dot-pastes"></span>Paste <span class="pill-count" id="count-pastes">0</span>
+        </button>
+        <button class="pill" data-cat="shorteners" onclick="setCategory(this,'shorteners')">
+          <span class="cat-dot cat-dot-shorteners"></span>Shortener <span class="pill-count" id="count-shorteners">0</span>
+        </button>
+        <button class="pill" data-cat="roblox" onclick="setCategory(this,'roblox')">
+          <span class="cat-dot cat-dot-roblox"></span>Roblox Key <span class="pill-count" id="count-roblox">0</span>
+        </button>
       </div>
     </div>
 
