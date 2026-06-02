@@ -4,6 +4,9 @@ import time
 import requests
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify, g
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
