@@ -1017,7 +1017,9 @@ input, textarea { font-family: inherit; }
 .service-card-domain { font-size: 0.75rem; color: var(--muted-fg); margin-top: 0.125rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .cat-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   margin-top: 0.5rem;
   font-size: 0.625rem;
   padding: 0.15rem 0.5rem;
@@ -1026,11 +1028,29 @@ input, textarea { font-family: inherit; }
   font-weight: 500;
 }
 
-.cat-adLinks { background: color-mix(in srgb, var(--primary) 20%, transparent); color: var(--primary); border-color: color-mix(in srgb, var(--primary) 30%, transparent); }
-.cat-socials { background: rgba(249,115,22,0.2); color: #fb923c; border-color: rgba(249,115,22,0.3); }
-.cat-pastes { background: rgba(34,197,94,0.2); color: #4ade80; border-color: rgba(34,197,94,0.3); }
-.cat-shorteners { background: rgba(96,165,250,0.2); color: #60a5fa; border-color: rgba(96,165,250,0.3); }
-.cat-roblox { background: rgba(168,85,247,0.2); color: #c084fc; border-color: rgba(168,85,247,0.3); }
+.cat-adLinks    { background: color-mix(in srgb, var(--primary) 20%, transparent); color: var(--primary);  border-color: color-mix(in srgb, var(--primary) 30%, transparent); }
+.cat-socials    { background: hsla(24,94%,53%,0.15);  color: hsl(24,94%,65%);   border-color: hsla(24,94%,53%,0.3); }
+.cat-pastes     { background: hsla(142,71%,45%,0.15); color: hsl(142,71%,60%);  border-color: hsla(142,71%,45%,0.3); }
+.cat-shorteners { background: hsla(217,91%,60%,0.15); color: hsl(217,91%,70%);  border-color: hsla(217,91%,60%,0.3); }
+.cat-roblox     { background: hsla(270,70%,60%,0.15); color: hsl(270,70%,72%);  border-color: hsla(270,70%,60%,0.3); }
+
+.cat-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cat-dot-sm { width: 5px; height: 5px; }
+
+.cat-dot-adLinks    { background: var(--primary); box-shadow: 0 0 4px color-mix(in srgb, var(--primary) 60%, transparent); }
+.cat-dot-socials    { background: hsl(24,94%,60%);   box-shadow: 0 0 4px hsla(24,94%,60%,0.5); }
+.cat-dot-pastes     { background: hsl(142,71%,50%);  box-shadow: 0 0 4px hsla(142,71%,50%,0.5); }
+.cat-dot-shorteners { background: hsl(217,91%,65%);  box-shadow: 0 0 4px hsla(217,91%,65%,0.5); }
+.cat-dot-roblox     { background: hsl(270,70%,66%);  box-shadow: 0 0 4px hsla(270,70%,66%,0.5); }
+
+.pill .cat-dot { width: 6px; height: 6px; }
 
 .service-card-link { opacity: 0; transition: opacity 0.2s; color: var(--muted-fg); margin-left: 0.75rem; flex-shrink: 0; }
 .service-card-link:hover { color: var(--primary); }
