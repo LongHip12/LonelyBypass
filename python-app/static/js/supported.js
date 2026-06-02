@@ -2,11 +2,11 @@ var allServices = [];
 var activeCategory = 'All';
 
 var CAT_CFG = {
-  adLinks:    { label: 'Ad-link',     emoji: '🔗', cls: 'cat-adLinks' },
-  socials:    { label: 'Social-lock', emoji: '👥', cls: 'cat-socials' },
-  pastes:     { label: 'Paste',       emoji: '📋', cls: 'cat-pastes' },
-  shorteners: { label: 'Shortener',   emoji: '✂️', cls: 'cat-shorteners' },
-  roblox:     { label: 'Roblox Key',  emoji: '🎮', cls: 'cat-roblox' }
+  adLinks:    { label: 'Ad-link',     dotCls: 'cat-dot-adLinks',    badgeCls: 'cat-adLinks' },
+  socials:    { label: 'Social-lock', dotCls: 'cat-dot-socials',    badgeCls: 'cat-socials' },
+  pastes:     { label: 'Paste',       dotCls: 'cat-dot-pastes',     badgeCls: 'cat-pastes' },
+  shorteners: { label: 'Shortener',   dotCls: 'cat-dot-shorteners', badgeCls: 'cat-shorteners' },
+  roblox:     { label: 'Roblox Key',  dotCls: 'cat-dot-roblox',     badgeCls: 'cat-roblox' }
 };
 
 function domainFromEntry(entry) {
@@ -89,13 +89,16 @@ function renderCards() {
 
   noResults.style.display = 'none';
   var html = '';
-  filtered.forEach(function(s, i) {
+  filtered.forEach(function(s) {
     var cfg = CAT_CFG[s.category];
     html += '<div class="service-card">' +
       '<div class="service-card-info">' +
         '<div class="service-card-name">' + escHtml(s.name) + '</div>' +
         '<div class="service-card-domain">' + escHtml(s.domain) + '</div>' +
-        '<span class="cat-badge ' + cfg.cls + '">' + cfg.emoji + ' ' + cfg.label + '</span>' +
+        '<span class="cat-badge ' + cfg.badgeCls + '">' +
+          '<span class="cat-dot ' + cfg.dotCls + ' cat-dot-sm"></span>' +
+          cfg.label +
+        '</span>' +
       '</div>' +
       '<a href="https://' + escHtml(s.domain) + '" target="_blank" rel="noreferrer" class="service-card-link" aria-label="Visit ' + escHtml(s.name) + '">' +
         '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>' +
