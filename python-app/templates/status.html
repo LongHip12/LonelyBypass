@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}System Status — Lonely Hub{% endblock %}
+{% block description %}Real-time status of all Lonely Hub services.{% endblock %}
+
+{% block content %}
+<main class="subpage-main">
+  <div class="status-glow" id="status-glow"></div>
+  <div class="container status-container">
+
+    <div class="status-hero" id="status-hero">
+      <div class="status-hero-icon" id="status-hero-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+      </div>
+      <div class="status-hero-text">
+        <div class="status-hero-row">
+          <span class="pulse-dot" id="pulse-dot"></span>
+          <h1 class="status-headline" id="status-headline">Checking status…</h1>
+        </div>
+        <p class="status-updated" id="status-updated">Loading…</p>
+      </div>
+      <div class="status-counts" id="status-counts" style="display:none">
+        <div class="status-count" id="count-online">
+          <div class="count-num emerald">0</div>
+          <div class="count-lbl">Online</div>
+        </div>
+        <div class="status-count" id="count-degraded" style="display:none">
+          <div class="count-num amber">0</div>
+          <div class="count-lbl">Degraded</div>
+        </div>
+        <div class="status-count" id="count-outage" style="display:none">
+          <div class="count-num red">0</div>
+          <div class="count-lbl">Down</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="services-card">
+      <div class="services-card-header">
+        <h2 class="services-card-title">Services</h2>
+        <span class="services-card-count" id="services-count">— monitored</span>
+      </div>
+      <div class="services-list" id="services-list">
+        <div class="service-skeleton-wrap" id="services-loading">
+          <div class="service-skeleton" style="animation-delay:0s"></div>
+          <div class="service-skeleton" style="animation-delay:.07s"></div>
+          <div class="service-skeleton" style="animation-delay:.14s"></div>
+          <div class="service-skeleton" style="animation-delay:.21s"></div>
+          <div class="service-skeleton" style="animation-delay:.28s"></div>
+          <div class="service-skeleton" style="animation-delay:.35s"></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="status-footer-note">Status updates every 30 seconds. Incidents are resolved within 24 hours.</p>
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/status.js') }}"></script>
+{% endblock %}
