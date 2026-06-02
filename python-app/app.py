@@ -85,11 +85,12 @@ def verify_captcha(token, captcha_type):
 
 
 def perform_bypass(url):
+    token = os.environ.get("TOKENACC", "")
     start = time.time()
     try:
         r = requests.get(
-            f"https://bypass.vip/api",
-            params={"url": url},
+            "https://hanami.run/api/bypass",
+            params={"url": url, "apikey": token},
             headers={"User-Agent": "LonelyBypass/1.0"},
             timeout=30,
         )
@@ -97,7 +98,12 @@ def perform_bypass(url):
         if not r.ok:
             return None
         data = r.json()
-        bypassed_url = data.get("result") or data.get("destination") or data.get("url")
+        bypassed_url = (
+            data.get("result")
+            or data.get("destination")
+            or data.get("bypassed")
+            or data.get("url")
+        )
         if not bypassed_url:
             return None
         return {"bypassedUrl": bypassed_url, "timeTaken": elapsed}
@@ -222,20 +228,22 @@ def api_supported():
     if SUPPORTED_CACHE["data"] and (now - SUPPORTED_CACHE["ts"]) < SUPPORTED_CACHE_TTL:
         return jsonify(SUPPORTED_CACHE["data"])
 
+    token = os.environ.get("TOKENACC", "")
     try:
         r = requests.get(
-            "https://api.bypass.vip/supported",
+            "https://hanami.run/api/supported",
+            params={"apikey": token},
             headers={"User-Agent": "LonelyBypass/1.0"},
             timeout=8,
         )
         raw = r.json()
-        result = raw.get("result", {})
+        result = raw.get("result", raw)
         data = {
-            "adLinks": result.get("ad-links", []),
-            "socials": result.get("socials", []),
-            "pastes": result.get("pastes", []),
-            "shorteners": result.get("shorteners", []),
-            "roblox": result.get("roblox", []),
+            "adLinks":    result.get("ad-links",   result.get("adLinks",    [])),
+            "socials":    result.get("socials",     []),
+            "pastes":     result.get("pastes",      []),
+            "shorteners": result.get("shorteners",  []),
+            "roblox":     result.get("roblox",      []),
         }
         SUPPORTED_CACHE = {"data": data, "ts": now}
         return jsonify(data)
