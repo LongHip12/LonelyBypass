@@ -1,0 +1,282 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Lonely Bypass API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: bypass
+    description: Link bypass operations
+  - name: stats
+    description: Statistics operations
+  - name: status
+    description: System status operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /bypass:
+    post:
+      operationId: bypassLink
+      tags: [bypass]
+      summary: Bypass a link
+      description: Verifies captcha and bypasses a link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BypassInput"
+      responses:
+        "200":
+          description: Bypass result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BypassResult"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "422":
+          description: Captcha verification failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /bypass/verify-captcha:
+    post:
+      operationId: verifyCaptcha
+      tags: [bypass]
+      summary: Verify captcha token
+      description: Verifies a captcha token (hCaptcha or Cloudflare Turnstile)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CaptchaVerifyInput"
+      responses:
+        "200":
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CaptchaVerifyResult"
+
+  /stats:
+    get:
+      operationId: getStats
+      tags: [stats]
+      summary: Get site statistics
+      description: Returns total links bypassed, supported services count, and months of service
+      responses:
+        "200":
+          description: Statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteStats"
+
+  /supported:
+    get:
+      operationId: getSupportedServices
+      tags: [bypass]
+      summary: Get supported services
+      description: Returns list of supported bypass services grouped by category, proxied from bypass.vip
+      responses:
+        "200":
+          description: Supported services
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SupportedServices"
+
+  /status:
+    get:
+      operationId: getSystemStatus
+      tags: [status]
+      summary: Get system status
+      description: Returns status of all system components
+      responses:
+        "200":
+          description: System status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemStatus"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    BypassInput:
+      type: object
+      required:
+        - url
+        - captchaToken
+        - captchaType
+      properties:
+        url:
+          type: string
+          description: The URL to bypass
+        captchaToken:
+          type: string
+          description: The captcha token from hCaptcha or Cloudflare Turnstile
+        captchaType:
+          type: string
+          enum: [hcaptcha, turnstile]
+          description: Which captcha provider was used
+
+    BypassResult:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+        bypassedUrl:
+          type: ["string", "null"]
+        originalUrl:
+          type: ["string", "null"]
+        timeTaken:
+          type: ["number", "null"]
+        error:
+          type: ["string", "null"]
+
+    CaptchaVerifyInput:
+      type: object
+      required:
+        - token
+        - type
+      properties:
+        token:
+          type: string
+        type:
+          type: string
+          enum: [hcaptcha, turnstile]
+
+    CaptchaVerifyResult:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+        error:
+          type: ["string", "null"]
+
+    SiteStats:
+      type: object
+      required:
+        - linksTotal
+        - supportedServices
+        - monthsOfService
+      properties:
+        linksTotal:
+          type: integer
+          description: Total number of links bypassed
+        supportedServices:
+          type: integer
+          description: Number of supported services
+        monthsOfService:
+          type: integer
+          description: Months of service
+
+    SystemStatus:
+      type: object
+      required:
+        - overall
+        - services
+        - updatedAt
+      properties:
+        overall:
+          type: string
+          enum: [operational, degraded, outage]
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServiceStatus"
+        updatedAt:
+          type: string
+
+    ServiceStatus:
+      type: object
+      required:
+        - name
+        - status
+        - uptime
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum: [operational, degraded, outage]
+        uptime:
+          type: number
+          description: Uptime percentage (0-100)
+        latency:
+          type: ["number", "null"]
+          description: Current latency in ms
+
+    SupportedServices:
+      type: object
+      required:
+        - adLinks
+        - socials
+        - pastes
+        - shorteners
+        - roblox
+      properties:
+        adLinks:
+          type: array
+          items:
+            type: string
+        socials:
+          type: array
+          items:
+            type: string
+        pastes:
+          type: array
+          items:
+            type: string
+        shorteners:
+          type: array
+          items:
+            type: string
+        roblox:
+          type: array
+          items:
+            type: string
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
